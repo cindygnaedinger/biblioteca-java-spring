@@ -1,6 +1,7 @@
 package com.egg.biblioteca.entidades;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,22 +21,22 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long isbn;
 
-    @Column(name="titulo")
+    @Column(name="titulo", nullable = false)
     private String titulo;
 
-    @Column(name="ejemplares")
+    @Column(name="ejemplares", nullable = false)
     private Integer ejemplares;
 
     @Column(name="alta")
     @Temporal (TemporalType.DATE)
-    private Data alta;
+    private Date alta;
     
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_autor", nullable = false)
     private Autor autor;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_editorial", nullable = false)
     private Editorial editorial;
 
     public Libro() {
@@ -65,11 +66,11 @@ public class Libro {
         this.ejemplares = ejemplares;
     }
 
-    public Data getAlta() {
+    public Date getAlta() {
         return alta;
     }
 
-    public void setAlta(Data alta) {
+    public void setAlta(Date alta) {
         this.alta = alta;
     }
 
