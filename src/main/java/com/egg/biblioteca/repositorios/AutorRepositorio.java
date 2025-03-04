@@ -10,6 +10,6 @@ import com.egg.biblioteca.entidades.Autor;
 @Repository
 public interface AutorRepositorio extends JpaRepository<Autor, Long> {
     
-       @Query("SELECT a FROM Autor a WHERE a.nombre = :nombre")
-    <List> Autor buscarPorAutor(@Param("autor") String autor);
-} 
+    @Query("SELECT a FROM Autor a WHERE a.nombre = :nombre")
+    Autor buscarPorAutor(@Param("nombre") String nombre);
+}

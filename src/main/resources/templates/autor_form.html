@@ -65,10 +65,10 @@
           </nav>
         <div class="container-fluid m-5 contenedor">
 
-            <form class="formulario" >
+            <form class="formulario" th:action="@{/autor/registro}" method="POST" >
                 <div class="form-group my-3">
                     <label class="mb-2">Cargar Autores</label> 
-                    <input type="text" class="form-control"  placeholder="Nombre del Autor">
+                    <input type="text" class="form-control" name="nombre"  placeholder="Nombre del Autor">
                 </div>
 
                 <button type="submit" class="btn btn-primary mt-3 botones">Guardar</button>

@@ -20,7 +20,8 @@ public class AutorServicio {
     private AutorRepositorio autorRepositorio;
 
     @Transactional
-    public void crearAutor(String nombre){
+    public void crearAutor(String nombre) throws MiException{
+        validar(nombre); 
         Autor autor = new Autor(); // acá instancio un objeto del tipo autor
         autor.setNombre(nombre); // seteo el atributo
 
