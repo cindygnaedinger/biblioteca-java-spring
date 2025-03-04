@@ -20,7 +20,8 @@ public class EditorialServicio {
     private EditorialRepositorio editorialRepositorio;
 
     @Transactional
-    public void crearEditorial(String nombre){
+    public void crearEditorial(String nombre) throws MiException{
+        validar(nombre); 
     Editorial editorial = new Editorial();
     editorial.setNombre(nombre);
 
