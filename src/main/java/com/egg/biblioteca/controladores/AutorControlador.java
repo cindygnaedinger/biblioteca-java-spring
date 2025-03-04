@@ -1,10 +1,8 @@
 package com.egg.biblioteca.controladores;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +24,15 @@ public class AutorControlador {
     }
 
     @PostMapping("/registro")
-    public String registro(@RequestParam String nombre){
+    public String registro(@RequestParam String nombre, ModelMap modelo){
         try {
-            autorServicio.crearAutor(nombre); // llamo al servicio para persistir
+            autorServicio.crearAutor(nombre); 
+            modelo.put("exito", "El autor se registró correctamente.");
         } catch (MiException e) {
-            Logger.getLogger(AutorControlador.class.getName()).log(Level.SEVERE, null, e);
-            return "autor_form.html";
+            modelo.put("error", "Error al registrar el autor: " + e.getMessage());
+            return "autor_form.html";  // Si hay error, vuelve al formulario
         }
-        return "index.html";
+        return "index.html";  // Si todo está bien, redirige a la página principal
     }
 }
+

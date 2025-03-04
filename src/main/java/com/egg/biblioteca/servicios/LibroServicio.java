@@ -30,8 +30,8 @@ public class LibroServicio {
     private EditorialRepositorio editorialRepositorio;
 
     @Transactional
-    public void crearLibro(String titulo, Integer ejemplares, Long idAutor, Long idEditorial){
-        // Buscar el autor por ID
+    public void crearLibro(Long isbn, String titulo, Integer ejemplares, Long idAutor, Long idEditorial)throws MiException{
+        validar(isbn, titulo, ejemplares, idAutor, idEditorial); 
         Optional<Autor> autorOptional = autorRepositorio.findById(idAutor);
         if(autorOptional.isEmpty()){
             throw new IllegalArgumentException("No se encontró el autor con el ID proporcionado.");
@@ -46,6 +46,7 @@ public class LibroServicio {
         Editorial editorial = editorialOptional.get();
 
         Libro libro = new Libro();
+        libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setEjemplares(ejemplares);
         libro.setAutor(autor);
