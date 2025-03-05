@@ -2,41 +2,29 @@ package com.egg.biblioteca.entidades;
 
 import java.util.Date;
 
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "libro")
 public class Libro {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long isbn;
-
-    @Column(name="titulo", nullable = false)
     private String titulo;
-
-    @Column(name="ejemplares", nullable = false)
     private Integer ejemplares;
-
-    @Column(name="alta")
-    @Temporal (TemporalType.DATE)
+    
+    @Temporal(TemporalType.DATE)
     private Date alta;
     
     @ManyToOne
-    @JoinColumn(name = "id_autor", nullable = false)
+    @JoinColumn(name = "id_autor")  
     private Autor autor;
-
+    
     @ManyToOne
-    @JoinColumn(name = "id_editorial", nullable = false)
+    @JoinColumn(name = "id_editorial")  
     private Editorial editorial;
 
     public Libro() {
@@ -89,4 +77,12 @@ public class Libro {
     public void setEditorial(Editorial editorial) {
         this.editorial = editorial;
     }
+
+    @Override
+    public String toString() {
+        return "Libro [isbn=" + isbn + ", titulo=" + titulo + ", ejemplares=" + ejemplares + ", alta=" + alta
+                + ", autor=" + autor + ", editorial=" + editorial + "]";
+    }
+
+    
 }
