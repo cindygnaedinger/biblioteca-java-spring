@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.egg.biblioteca.entidades.Autor;
 
 @Repository
-public interface AutorRepositorio extends JpaRepository<Autor, Long> {
+public interface AutorRepositorio extends JpaRepository<Autor, String> {
     
     @Query("SELECT a FROM Autor a WHERE a.nombre = :nombre")
     Autor buscarPorAutor(@Param("nombre") String nombre);
