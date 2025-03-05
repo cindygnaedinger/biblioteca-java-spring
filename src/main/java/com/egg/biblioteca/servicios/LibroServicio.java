@@ -22,55 +22,41 @@ import org.springframework.transaction.annotation.Transactional;
 public class LibroServicio {
     @Autowired
     private LibroRepositorio libroRepositorio;
-
     @Autowired
     private AutorRepositorio autorRepositorio;
-
     @Autowired
     private EditorialRepositorio editorialRepositorio;
 
     @Transactional
-    public void crearLibro(Long isbn, String titulo, Integer ejemplares, Long idAutor, Long idEditorial)throws MiException{
-        validar(isbn, titulo, ejemplares, idAutor, idEditorial); 
-        Optional<Autor> autorOptional = autorRepositorio.findById(idAutor);
-        if(autorOptional.isEmpty()){
-            throw new IllegalArgumentException("No se encontró el autor con el ID proporcionado.");
-        }
-        Autor autor = autorOptional.get();
-
-        // Buscar el autor por ID
-        Optional<Editorial> editorialOptional = editorialRepositorio.findById(idEditorial);
-        if(editorialOptional.isEmpty()){
-            throw new IllegalArgumentException("No se encontró la editorial con el ID proporcionado.");
-        }
-        Editorial editorial = editorialOptional.get();
+    public void crearLibro(Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial)
+            throws MiException {
+        validar(isbn, titulo, ejemplares, idAutor, idEditorial);
+        Autor autor = autorRepositorio.findById(idAutor).get();
+        Editorial editorial = editorialRepositorio.findById(idEditorial).get();
 
         Libro libro = new Libro();
+        // Seteo atributos
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setEjemplares(ejemplares);
+        libro.setAlta(new Date());
         libro.setAutor(autor);
         libro.setEditorial(editorial);
-        libro.setAlta(new Date());
-    
-        // guardo en la bd
+        // Persisto el objeto
         libroRepositorio.save(libro);
     }
 
-     @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<Libro> listarLibros() {
 
-
         List<Libro> libros = new ArrayList<>();
-
-
-
         libros = libroRepositorio.findAll();
         return libros;
     }
 
     @Transactional
-    public void modificarLibro(Long isbn, String titulo, Integer ejemplares, Long idAutor, Long idEditorial) throws MiException {
+    public void modificarLibro(Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial)
+            throws MiException {
         validar(isbn, titulo, ejemplares, idAutor, idEditorial);
         Optional<Libro> respuesta = libroRepositorio.findById(isbn);
         Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
@@ -79,15 +65,15 @@ public class LibroServicio {
         Autor autor = new Autor();
         Editorial editorial = new Editorial();
 
-        if(respuestaAutor.isPresent()){
+        if (respuestaAutor.isPresent()) {
             autor = respuestaAutor.get();
         }
 
-        if(respuestaEditorial.isPresent()){
+        if (respuestaEditorial.isPresent()) {
             editorial = respuestaEditorial.get();
         }
 
-        if(respuesta.isPresent()){
+        if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
             libro.setTitulo(titulo);
             libro.setEjemplares(ejemplares);
@@ -96,21 +82,29 @@ public class LibroServicio {
         }
     }
 
-    private void validar(Long isbn, String titulo, Integer ejemplares, Long idAutor, Long idEditorial) throws MiException {
+    private void validar(Long isbn, String titulo, Integer ejemplares, String idAutor, String idEditorial)
+            throws MiException {
+
         if (isbn == null) {
-            throw new MiException("El ISBN no puede ser nulo.");
+            throw new MiException("el isbn no puede ser nulo"); //
         }
-        if (titulo.isEmpty() || titulo == null){
-            throw new MiException("El título no puede ser nulo o estar vacío.");
+        if (titulo.isEmpty() || titulo == null) {
+            throw new MiException("el titulo no puede ser nulo o estar vacio");
         }
-        if(ejemplares == null){
-            throw new MiException("Ejemplares no puede ser nulo.");
+        if (ejemplares == null) {
+            throw new MiException("ejemplares no puede ser nulo");
         }
         if (idAutor == null) {
-            throw new MiException("El ID de autor no puede ser nulo o estar vacío.");
+            throw new MiException("el Autor no puede ser nulo o estar vacio");
         }
+
         if (idEditorial == null) {
-            throw new MiException("El ID de editorial no puede ser nulo o estar vacío.");
+            throw new MiException("La Editorial no puede ser nula o estar vacia");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Libro getOne(Long isbn) {
+        return libroRepositorio.getReferenceById(isbn);
     }
 }

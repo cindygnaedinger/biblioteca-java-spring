@@ -41,7 +41,7 @@ public class EditorialServicio {
     }
 
      @Transactional
-    public void modificarEditorial(String nombre, Long id){
+    public void modificarEditorial(String nombre, String id){
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
 
         if(respuesta.isPresent()){

@@ -41,7 +41,7 @@ public class AutorServicio {
     }
 
     @Transactional
-    public void modificarAutor(String nombre, Long id){
+    public void modificarAutor(String nombre, String id){
         Optional<Autor> respuesta = autorRepositorio.findById(id);
 
         if(respuesta.isPresent()){
