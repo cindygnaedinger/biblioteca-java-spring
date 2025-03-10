@@ -12,4 +12,16 @@ public class PortalControlador {
     public String index(){
         return "index.html";
     }
+
+    // Método para mostrar el formulario de registro
+    @GetMapping("/registrar")
+    public String registrar() {
+        return "registro.html";  // Retorna la vista para registrarse
+    }
+
+    // Método para mostrar la página de inicio de sesión
+    @GetMapping("/login")
+    public String login() {
+        return "login.html";  // Retorna la vista de login
+    }
 }

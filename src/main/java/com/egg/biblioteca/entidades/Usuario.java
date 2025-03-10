@@ -4,10 +4,11 @@ import org.hibernate.annotations.UuidGenerator;
 
 import com.egg.biblioteca.enumeraciones.Rol;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-
+@Entity
 public class Usuario {
     @Id
     @UuidGenerator
