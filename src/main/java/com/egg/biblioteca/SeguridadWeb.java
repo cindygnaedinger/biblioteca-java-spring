@@ -10,17 +10,36 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SeguridadWeb {
-        @Bean
-public BCryptPasswordEncoder passwordEncoder() {
-return new BCryptPasswordEncoder();
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/login", "/logincheck").permitAll()
+                .anyRequest().authenticated()
+            ) // Aquí cerramos correctamente .authorizeHttpRequests()
+            .formLogin(form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/logincheck")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/inicio", true)
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll()
+            )
+            .csrf(csrf -> csrf.disable());
+
+        return http.build();
+    }
 }
-@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-http
-.authorizeHttpRequests((authorize) -> authorize
-.requestMatchers("/css/", "/js/", "/img/", "/**").permitAll()
-)
-.csrf(csrf -> csrf.disable());
-return http.build();
-}
-}
+
