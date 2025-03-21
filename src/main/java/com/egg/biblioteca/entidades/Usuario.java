@@ -7,7 +7,10 @@ import com.egg.biblioteca.enumeraciones.Rol;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 @Entity
 public class Usuario {
     @Id
@@ -22,6 +25,11 @@ public class Usuario {
     
     @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "imagen_id")
+    private Imagen imagen;
+
 
     public Usuario() {
     }
@@ -64,5 +72,13 @@ public class Usuario {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+    
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
     }
 }
