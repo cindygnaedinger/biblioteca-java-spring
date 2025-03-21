@@ -4,8 +4,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.egg.biblioteca.entidades.Usuario;
 
@@ -48,5 +50,16 @@ public class PortalControlador {
         
         return "inicio.html";  // Retorna la vista de inicio para usuarios normales
     }
+
+    @PostMapping("/registrar")
+public String registrar(@RequestParam("archivo") MultipartFile archivo, ModelMap modelo) {
+    if (archivo.isEmpty()) {
+        modelo.put("error", "Debe subir un archivo válido");
+        return "registro.html";
+    }
+    // Aquí puedes agregar la lógica para procesar el archivo
+    modelo.put("exito", "Registro exitoso con archivo adjunto");
+    return "redirect:/inicio";
+}
 }
 
